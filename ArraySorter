@@ -1,0 +1,111 @@
+//Johannes Eklind joheki2 - Random numbers in arrays - sorted
+/*
+This code
+1.Takes input from user and validates it
+2.Calculates random numbers & stores number of even and odd numbers.
+3. Creates two arrays, one storing all the even number and the other storing odd numbers.
+4. Printing random numbers and sorted numbers + number of even and odd numbers.
+ */
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        Random rand = new Random();
+        final int upperBound = 1000;
+        String inputCatcher;
+        int numOfRandoms = 0;
+        int evenIndex = 0;
+        int oddIndex = 0;
+        int numEvens = 0;
+        int numOdds = 0;
+
+        //Takes input from user and validates it (checks if int, positive and enough memory).
+        System.out.println("How many random numbers in the range 0 - 999 are desired?");
+        inputCatcher = input.next();
+        try
+        {
+            numOfRandoms = Integer.parseInt(inputCatcher);
+        }
+        catch(NumberFormatException e)
+        {
+            System.out.println("Not a valid number!");
+            System.exit(0);
+        }
+        if (numOfRandoms < 0 ){
+            System.out.println("Not a positive number!");
+            System.exit(0);
+        }
+        try {
+            int[] testArray = new int[numOfRandoms];
+        }catch ( OutOfMemoryError e){
+            System.out.println("Not enough memory!");
+            System.exit(0);
+        }
+
+        //Calculates random numbers
+        int[] numArray = new int[numOfRandoms];
+        for (int i = 0; i < numOfRandoms; i++ ) {
+            numArray[i] = rand.nextInt(upperBound);
+        }
+
+        //calculates number of even and odd numbers
+        for (int k = 0; k < numOfRandoms; k++ ) {
+            if (numArray[k] % 2 == 0){
+                numEvens++;
+            }else {
+                numOdds++;
+            }
+        }
+
+        //Create new arrays to store even and odd numbers
+        int[] evenArray = new int[numEvens];
+        int[] oddArray = new int[numOdds];
+
+        //Separates and stores even and odd numbers in new arrays
+        for (int k = 0; k < numOfRandoms; k++ ) {
+             if (numArray[k] % 2 == 0){
+                 evenArray[evenIndex] = numArray[k];
+                 evenIndex++;
+             }else {
+                 oddArray[oddIndex] = numArray[k];
+                 oddIndex++;
+             }
+        }
+
+        //Sort arrays
+        Arrays.sort(evenArray);
+        Arrays.sort(oddArray);
+
+        //Prints random numbers unsorted
+        System.out.println("Here are the random numbers:");
+        for (int j = 0; j < numOfRandoms; j++ ) {
+            System.out.printf("%d ",numArray[j]);
+        }
+        System.out.println();
+
+        //Prints even numbers sorted
+        System.out.println("Here are the random numbers arranged:");
+        if (evenIndex > 0){
+            for (int p = 0; p < evenIndex; p++ ) {
+                System.out.printf("%d ",evenArray[p]);
+            }
+        } else {
+            System.out.print("No even numbers");
+        }
+        System.out.print("- ");
+
+        //Prints odd numbers sorted from last index
+        if (oddIndex > 0){
+            for (int p = (oddIndex - 1); p >= 0; p-- ) {
+                System.out.printf("%d ",oddArray[p]);
+            }
+        } else {
+        System.out.print("No odd numbers");
+    }
+        System.out.println();
+        System.out.printf("Of the above numbers, %d were even and %d odd ",numEvens,numOdds);
+
+    }//main
+} //end Class
